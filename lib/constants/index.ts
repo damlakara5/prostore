@@ -8,3 +8,17 @@ export const signInDefaultValues = {
     email : '',
     password: ''
 }
+export const signUpDefaultValues = {
+    email : '',
+    password: '',
+    name:'',
+    confirmPassword: ''
+}
+
+export const shippingAddressDefaultValues = {
+    fullName : 'John Doe',
+    streetAddress : '123 Main St',
+    city: 'Anytown',
+    postalCode: '12345',
+    country: 'USA'
+}
