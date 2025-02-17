@@ -1,12 +1,13 @@
 'use server'
 
-import { shippingAddressSchema, signInFormSchema, signUpFormSchema } from "../validator";
+import { paymentMethodSchema, shippingAddressSchema, signInFormSchema, signUpFormSchema } from "../validator";
 import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { formatErrors } from "../utils";
 import { ShippingAddress } from "@/types";
+import { z } from "zod";
 
 
 //Sign in user with credentials (using credentials ptovider)
@@ -127,6 +128,75 @@ export  async function updateUserAddress(data: ShippingAddress){
             success: true,
             message: 'User updated successfully'
         }
+    } catch (error) {
+        return {
+            success: false,
+            message: formatErrors(error)
+        }
+    }
+}
+
+
+//Update users payment method
+export async function updateUserPaymentMethod(data: z.infer<typeof paymentMethodSchema>) {
+    try {
+        const session = await auth();
+        const currentUser = await prisma.user.findFirst({
+            where: {id: session?.user?.id}
+        });
+
+        if(!currentUser) throw new Error('User not found.');
+
+        const paymentMethod = paymentMethodSchema.parse(data);
+
+        await prisma.user.update({
+            where: {id: currentUser.id},
+            data: { paymentMethod: paymentMethod.type}
+        });
+
+
+        return  {
+            success: true,
+            message: 'User updated successfully'
+        };
+        
+    } catch (error) {
+        return {
+            success: false,
+            message: formatErrors(error)
+        }
+    }
+}
+
+
+
+//Uodate the user profile
+export async function updateProfile(user: {
+    name: string,
+    email: string
+}) {
+    try {
+
+
+        const session = await auth();
+        const currentUSer = await prisma.user.findFirst({
+            where: {id: session?.user?.id}
+        })
+
+
+        if(!currentUSer) throw new Error('User not found');
+
+        await prisma.user.update({
+            where: {id: currentUSer.id},
+            data: {name: user.name}
+        });
+
+
+        return {
+            success: true,
+            message: 'User updated successfully'
+        }
+        
     } catch (error) {
         return {
             success: false,
