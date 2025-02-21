@@ -24,7 +24,7 @@ export function formatNumberWithDecimal(num: number): string {
 
 //Format errors
 //eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function formatErrors(error:any) {
+export function formatErrors(error:any) {
   if(error.name === 'ZodError'){
     //handle zod error
     const fieldErrors = Object.keys(error.errors).map((field) =>  error.errors[field].message);
@@ -72,6 +72,15 @@ export const formatCurrency = (amount: number | string | null) => {
   }else{
     return 'NaN'
   }
+}
+
+
+
+//Format number
+const NUMBER_FORMATTER = new Intl.NumberFormat('en-US');
+
+export function formatNumber (number: number){
+  return NUMBER_FORMATTER.format(number)
 }
 
 

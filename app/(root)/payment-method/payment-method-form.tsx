@@ -30,6 +30,7 @@ const PaymentMethodForm = ({preferredPaymentMethod}: {preferredPaymentMethod: st
 
     const onSubmit = async (values: z.infer<typeof paymentMethodSchema>) => {
         startTransition(async() => {
+            console.log('values', values)
             const res = await updateUserPaymentMethod(values);
 
             if(!res.success) {
@@ -44,6 +45,9 @@ const PaymentMethodForm = ({preferredPaymentMethod}: {preferredPaymentMethod: st
             router.push('/place-order');
         })
     }
+
+
+    console.log(PAYMENT_METHODS)
 
     return ( <>
         <div className="max-w-md mx-auto space-y-4">

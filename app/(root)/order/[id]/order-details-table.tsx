@@ -1,14 +1,18 @@
 'use client'
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { useToast } from "@/hooks/use-toast";
+import { deliverOrder, updateOrderToPaidCOD } from "@/lib/actions/order.actions";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { useTransition } from "react";
 
-const OrderDetailsTable = ({order} : {order: Order  }) => {
+const OrderDetailsTable = ({order, isAdmin} : {order: Order, isAdmin: boolean  }) => {
 /* 343d7ed5-0979-417c-8ba6-86e05f7553f0 */
     const  {
         id,
@@ -25,6 +29,49 @@ const OrderDetailsTable = ({order} : {order: Order  }) => {
         paidAt
     } = order;
 
+
+
+
+    //button to mark order as paid
+    const MarkAsPaidButton = () => {
+        const [isPending, startTransition] = useTransition();
+        const {toast} = useToast();
+
+        return <Button 
+                type="button"
+                disabled={isPending}
+                onClick={() => startTransition(async() => {
+                    const res = await updateOrderToPaidCOD(order.id);
+                    toast({
+                        variant: res.success ? 'default' : 'destructive',
+                        description: res.message
+                    })
+                })}
+            >
+                {isPending ? 'Processing...' : 'Marked as paid'}
+        </Button>
+    }
+
+
+    //button to mark order as delivered
+    const MarkAsDeliveredButton = () => {
+        const [isPending, startTransition] = useTransition();
+        const {toast} = useToast();
+
+        return <Button 
+                type="button"
+                disabled={isPending}
+                onClick={() => startTransition(async() => {
+                    const res = await deliverOrder(order.id);
+                    toast({
+                        variant: res.success ? 'default' : 'destructive',
+                        description: res.message
+                    })
+                })}
+            >
+                {isPending ? 'Processing...' : 'Marked as delivered'}
+        </Button>
+    }
 
     return (  <>
         <h1 className="py-4 text-2xl">Order {formatId(id)} </h1>
@@ -51,7 +98,7 @@ const OrderDetailsTable = ({order} : {order: Order  }) => {
                        {shippingAddress.postalCode}, {shippingAddress.country} </p>
                         {isDelivered ? (
                             <Badge variant='secondary'>
-                                Paid at {formatDateTime(deliveredAt!).dateTime}
+                                Delivered at {formatDateTime(deliveredAt!).dateTime}
                             </Badge>
                         ) : (
                             <Badge variant='destructive'>Not delivered</Badge>
@@ -112,6 +159,16 @@ const OrderDetailsTable = ({order} : {order: Order  }) => {
                                 <div>Total</div>
                                 <div>{formatCurrency(totalPrice)}</div>
                             </div>
+
+
+                            {/* Cash on delivery */}
+                            {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' &&  (
+                                <MarkAsPaidButton />
+                            )}
+
+                            {isAdmin && isPaid && !isDelivered &&  (
+                                <MarkAsDeliveredButton />
+                            )}
                     </CardContent>
                 </Card>
             </div>

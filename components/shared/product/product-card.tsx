@@ -5,6 +5,9 @@ import ProductPrice from "./product-price";
 import { Product } from "@/types";
 
 const ProductCard = ({product}: {product:Product}) => {
+    console.log(product);
+
+    
     return ( <Card className="w-full max-q-sm">
         <CardHeader className="items-center p-0">
             <Link href={`/product/${product.slug}`}>
