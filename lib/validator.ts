@@ -129,3 +129,8 @@ export const paymentResultSchema = z.object({
   })
 
 
+//Schema to update users
+export const updateUserSchema = updateProfileSchema.extend({
+    id: z.string().min(1,'Id is required'),
+    role: z.string().min(1,'Role is required'),
+})
