@@ -2,6 +2,10 @@ import { updateOrderToPaid } from "@/lib/actions/order.actions";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
+export const config = {
+    runtime: "nodejs",
+  };
+
 export async function POST(req:NextRequest) {
     const event = await Stripe.webhooks.constructEvent(
         await req.text(),

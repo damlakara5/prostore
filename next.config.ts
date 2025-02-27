@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
       hostname: 'utfs.io',
       port:''
     }]
-  }
+  },
 };
 
 export default nextConfig;

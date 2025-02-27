@@ -2,7 +2,12 @@ import { createUploadthing, type FileRouter } from 'uploadthing/next';
 import { UploadThingError } from 'uploadthing/server';
 import { auth } from '@/auth';
 
+export const config = {
+  runtime: "nodejs",
+};
+
 const f = createUploadthing();
+
 
 export const ourFileRouter = {
   imageUploader: f({
