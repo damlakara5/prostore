@@ -9,7 +9,7 @@ import { insertOrderSchema } from "../validator";
 import { prisma } from "@/db/prisma";
 import { CartItem, PaymentResult } from "@/types";
 import { PAGE_SIZE } from "../constants";
-import { Prisma } from "@prisma/client/edge";
+import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function createOrder () {
