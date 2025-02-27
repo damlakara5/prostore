@@ -13,7 +13,15 @@ import Link from "next/link";
 import { useTransition } from "react";
 import StripePayment from "../stripe-payment";
 
-const OrderDetailsTable = ({order, isAdmin, stripeClientSecret} : {order: Order, isAdmin: boolean,stripeClientSecret: string | null  }) => {
+const OrderDetailsTable =  ({
+    order,
+    isAdmin,
+    stripeClientSecret,
+  }: {
+    order: Omit<Order, 'paymentResult'>;
+    isAdmin: boolean;
+    stripeClientSecret: string | null;
+  })  => {
 /* 343d7ed5-0979-417c-8ba6-86e05f7553f0 */
     const  {
         id,
