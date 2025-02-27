@@ -4,13 +4,11 @@ import { notFound } from "next/navigation";
 import OrderDetailsTable from "./order-details-table";
 import { ShippingAddress } from "@/types";
 import { auth } from "@/auth";
-
-
+import Stripe from 'stripe';
 
 export const metadata : Metadata = {
     title: 'Order'
 }
-
 
 const OrderDetailsPage = async (props: {
     params: Promise<{
@@ -25,12 +23,25 @@ const OrderDetailsPage = async (props: {
 
     const session = await auth();
     
+    let client_secret =null;
 
+    //CHeck if is not paid and using stripe
+    if(order.paymentMethod === 'Stripe' && !order.isPaid){
+        //Init stripe instance
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: Math.round(Number(order.totalPrice) * 100),
+            currency: 'USD',
+            metadata: {orderId: order.id}
+        });
+        client_secret= paymentIntent.client_secret;
+    }
 
     return ( <OrderDetailsTable order={{
         ...order,
         shippingAddress: order.shippingAddress as ShippingAddress
     }}
+    stripeClientSecret={client_secret}
     isAdmin = {session?.user?.role === 'admin' || false}
     /> );
 }

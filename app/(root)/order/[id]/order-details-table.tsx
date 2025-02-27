@@ -11,8 +11,9 @@ import { Order } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useTransition } from "react";
+import StripePayment from "../stripe-payment";
 
-const OrderDetailsTable = ({order, isAdmin} : {order: Order, isAdmin: boolean  }) => {
+const OrderDetailsTable = ({order, isAdmin, stripeClientSecret} : {order: Order, isAdmin: boolean,stripeClientSecret: string | null  }) => {
 /* 343d7ed5-0979-417c-8ba6-86e05f7553f0 */
     const  {
         id,
@@ -28,9 +29,6 @@ const OrderDetailsTable = ({order, isAdmin} : {order: Order, isAdmin: boolean  }
         deliveredAt,
         paidAt
     } = order;
-
-
-
 
     //button to mark order as paid
     const MarkAsPaidButton = () => {
@@ -160,7 +158,16 @@ const OrderDetailsTable = ({order, isAdmin} : {order: Order, isAdmin: boolean  }
                                 <div>{formatCurrency(totalPrice)}</div>
                             </div>
 
-
+                            {/* Stripe Payment */}
+                            {
+                                !isPaid && paymentMethod === 'Stripe' && stripeClientSecret && (
+                                    <StripePayment 
+                                        priceInCents={Number(order.totalPrice) * 100} 
+                                        orderId={order.id}
+                                        clientSecret={stripeClientSecret}
+                                    />
+                                )
+                            }
                             {/* Cash on delivery */}
                             {isAdmin && !isPaid && paymentMethod === 'CashOnDelivery' &&  (
                                 <MarkAsPaidButton />
