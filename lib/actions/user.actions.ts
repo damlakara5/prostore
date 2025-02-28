@@ -11,6 +11,8 @@ import { PAGE_SIZE } from "../constants";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 import {hash} from "../encrypt";
+import { getMyCart } from './cart-actions';
+
 
 //Sign in user with credentials (using credentials ptovider)
 
@@ -46,6 +48,8 @@ export async function signInWithCredentials(prevState:unknown, formData: FormDat
 
 //sign out the user
 export async function signOutUser() {
+    const currentCart = await getMyCart();
+    await prisma.cart.delete({ where: { id: currentCart?.id } });
     await signOut()
 }
 
