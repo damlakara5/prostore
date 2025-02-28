@@ -3,7 +3,6 @@
 import { paymentMethodSchema, shippingAddressSchema, signInFormSchema, signUpFormSchema, updateUserSchema } from "../validator";
 import { auth, signIn, signOut } from "@/auth";
 import { prisma } from "@/db/prisma";
-import { hashSync } from "bcrypt-ts-edge";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { formatErrors } from "../utils";
 import { ShippingAddress } from "@/types";
@@ -11,7 +10,7 @@ import { z } from "zod";
 import { PAGE_SIZE } from "../constants";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
-
+import {hash} from "../encrypt";
 
 //Sign in user with credentials (using credentials ptovider)
 
@@ -62,7 +61,7 @@ export async function signUpUser(prevState: unknown, formData: FormData) {  //us
 
         const plainPassword = user.password;
         //hash the password before putting in db
-        user.password = hashSync(user.password, 10);
+        user.password = await hash(user.password);
 
         //add to the db
         await prisma.user.create({
