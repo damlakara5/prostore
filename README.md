@@ -18,6 +18,8 @@ Main Purpose: Prostore's primary goal is to provide a seamless and user-friendly
 
 ### The app
 
+Link for the app: https://prostore-zeta-lac.vercel.app/
+
 Features:
 
 - Responsive Design: Optimized for a smooth experience across all devices.
