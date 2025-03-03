@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prostore
 
-## Getting Started
+"Prostore" –an innovative e-commerce platform designed to transform the online shopping experience. 
 
-First, run the development server:
+## Table of contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Overview](#overview)
+  - [The app](#the-app)
+  - [Screenshot](#screenshot)
+  - [Built with](#built-with)
+  - [Used Features](#used-features)
+- [Author](#author)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Overview
+Welcome to Prostore, an innovative e-commerce platform designed to transform the online shopping experience. Our app caters to a wide range of consumers, looking for a convenient, reliable, and comprehensive online shopping solution.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Main Purpose: Prostore's primary goal is to provide a seamless and user-friendly platform where customers can explore a diverse range of products, from daily necessities to unique finds. We aim to streamline the shopping process, making it easier, faster, and more enjoyable for everyone.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### The app
 
-## Learn More
+Features:
 
-To learn more about Next.js, take a look at the following resources:
+- Responsive Design: Optimized for a smooth experience across all devices.
+- Product Exploration: Browse through a wide range of products with detailed descriptions.
+- Review System: Users can read and write reviews for products.
+- Favorites & Shopping Cart: Add products to favorites or shopping cart.
+- Order Processing: Seamless order placement with Stripe integration for payment processing.
+- Advanced Filtering: Filter products by price, category, gender, size, and more.
+- Personalization and Control: Users can easily update their personal information, such as email and shipping address, ensuring a personalized and hassle-free shopping experience.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Screenshot
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![](./home-page.png)
+![](./cart-page.png)
+![](./product-detail.png)
+![](./payment.png)
 
-## Deploy on Vercel
+### Built with
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- NextJs
+- Prisma
+- Next Auth
+- Typescript
+- PostgreSQL
+- ShadCN UI
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+### Used Features
+- REST API
+- ES Lint
+- Zod
+- React Hook Form
+- Stripe API
+- Recharts
+- Uploadthing
+
+
+## Author
+
+- LinkedIn - [Damla Kara](https://www.linkedin.com/in/damla-kara-348081232/)
